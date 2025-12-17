@@ -1,13 +1,13 @@
 1:"$Sreact.fragment"
-2:I[2971,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-3:I[32177,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-4:I[66636,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-5:I[55786,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-6:I[17993,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-7:I[1155,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-8:I[28792,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
-9:I[13642,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js"],"default"]
+2:I[2971,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+3:I[32177,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+4:I[66636,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+5:I[55786,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+6:I[17993,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+7:I[1155,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+8:I[28792,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
+9:I[13642,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js"],"default"]
 a:I[97367,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
 b:"$Sreact.suspense"
-0:{"buildId":"-13RXAQIwKYMfprkTj9P5","rsc":["$","$1","c",{"children":[["$","main",null,{"className":"min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30","children":[["$","$L2",null,{}],["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{}],["$","$L6",null,{}],["$","$L7",null,{}],["$","$L8",null,{}],["$","$L9",null,{}]]}],[["$","script","script-0",{"src":"/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","async":true}],["$","script","script-1",{"src":"/Hackathon2026/_next/static/chunks/42a0791941f2a8f5.js","async":true}]],["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"2KJKRZ21T7fkW93AC0MEC","rsc":["$","$1","c",{"children":[["$","main",null,{"className":"min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30","children":[["$","$L2",null,{}],["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{}],["$","$L6",null,{}],["$","$L7",null,{}],["$","$L8",null,{}],["$","$L9",null,{}]]}],[["$","script","script-0",{"src":"/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","async":true}],["$","script","script-1",{"src":"/Hackathon2026/_next/static/chunks/a18de6400fa82c3b.js","async":true}]],["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]]}],"loading":null,"isPartial":false}
 c:null
