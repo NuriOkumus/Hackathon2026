@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[47257,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/247eb132b7f7b574.js"],"ClientPageRoot"]
+3:I[86567,["/Hackathon2026/_next/static/chunks/960cc97152d5f198.js","/Hackathon2026/_next/static/chunks/058b57a8104c2210.js","/Hackathon2026/_next/static/chunks/54015992c822322b.js","/Hackathon2026/_next/static/chunks/5c13b4973af2acca.js"],"default"]
+6:I[97367,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"YGzvgutn4dFpX0XjK7dgq","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/Hackathon2026/_next/static/chunks/54015992c822322b.js","async":true}],["$","script","script-1",{"src":"/Hackathon2026/_next/static/chunks/5c13b4973af2acca.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null

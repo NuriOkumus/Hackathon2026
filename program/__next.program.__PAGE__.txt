@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[2971,["/Hackathon2026/_next/static/chunks/960cc97152d5f198.js","/Hackathon2026/_next/static/chunks/058b57a8104c2210.js","/Hackathon2026/_next/static/chunks/852fc2a3057e1c1f.js","/Hackathon2026/_next/static/chunks/54015992c822322b.js"],"default"]
+3:I[79055,["/Hackathon2026/_next/static/chunks/960cc97152d5f198.js","/Hackathon2026/_next/static/chunks/058b57a8104c2210.js","/Hackathon2026/_next/static/chunks/852fc2a3057e1c1f.js","/Hackathon2026/_next/static/chunks/54015992c822322b.js"],"default"]
+4:I[13642,["/Hackathon2026/_next/static/chunks/960cc97152d5f198.js","/Hackathon2026/_next/static/chunks/058b57a8104c2210.js","/Hackathon2026/_next/static/chunks/852fc2a3057e1c1f.js","/Hackathon2026/_next/static/chunks/54015992c822322b.js"],"default"]
+5:I[97367,["/Hackathon2026/_next/static/chunks/ff1a16fafef87110.js","/Hackathon2026/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
+6:"$Sreact.suspense"
+0:{"buildId":"YGzvgutn4dFpX0XjK7dgq","rsc":["$","$1","c",{"children":[["$","main",null,{"className":"min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30","children":[["$","$L2",null,{}],["$","div",null,{"className":"pt-24","children":["$","$L3",null,{}]}],["$","$L4",null,{}]]}],[["$","script","script-0",{"src":"/Hackathon2026/_next/static/chunks/852fc2a3057e1c1f.js","async":true}],["$","script","script-1",{"src":"/Hackathon2026/_next/static/chunks/54015992c822322b.js","async":true}]],["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]]}],"loading":null,"isPartial":false}
+7:null

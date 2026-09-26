@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, initial-scale=1">
+  <title>Hackathon: Akıllı Şehirler 2026 — MSKÜ VBT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Syne:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ── RESET ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── TOKENS ── */
+    :root {
+      --bg: #05050a;
+      --cyan: #22d3ee;
+      --purple: #f97316;
+      --green: #00FFA3;
+      --amber: #FFB800;
+      --text: #f8fafc;
+      --dim: rgba(248, 250, 252, 0.85);
+      --muted: #314158;
+      --card-bg: rgba(34, 211, 238, 0.03);
+      --card-bd: rgba(34, 211, 238, 0.11);
+    }
+
+    /* ── LIGHT CYBERPUNK THEME ── */
+    body.light {
+      --bg: #f2f3f5;
+      --cyan: #0284c7;
+      --purple: #d4470a;
+      --green: #059669;
+      --amber: #b45309;
+      --text: #0d1526;
+      --dim: rgba(13, 21, 38, 0.55);
+      --muted: #64748b;
+      --card-bg: rgba(2, 132, 199, 0.06);
+      --card-bd: rgba(2, 132, 199, 0.2);
+    }
+    body.light .bgnum {
+      color: rgba(2, 132, 199, 0.13);
+    }
+    body.light .scan-beam {
+      background: linear-gradient(180deg, transparent, rgba(2, 132, 199, 0.09), transparent);
+    }
+    body.light .s8-col-lbl {
+      border-bottom-color: rgba(13, 21, 38, 0.15);
+    }
+    body.light .grid-bg {
+      background-image:
+        linear-gradient(rgba(2, 132, 199, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(2, 132, 199, 0.07) 1px, transparent 1px);
+    }
+    body.light .scanlines {
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+          rgba(0, 0, 0, 0.025) 2px, rgba(0, 0, 0, 0.025) 4px);
+    }
+    body.light .scan-beam {
+      background: linear-gradient(180deg, transparent, rgba(2, 132, 199, 0.03), transparent);
+    }
+    body.light .pbadge.hi {
+      background: rgba(2, 132, 199, 0.12);
+      border-color: rgba(2, 132, 199, 0.4);
+      color: var(--cyan);
+    }
+    body.light .cover-badge {
+      border-color: rgba(2, 132, 199, 0.25);
+      background: rgba(2, 132, 199, 0.06);
+      color: var(--dim);
+    }
+    body.light .cvdot { background: var(--cyan); }
+    body.light .cover-h2 { color: var(--dim); }
+    body.light .blist li::before { background: var(--cyan); }
+    body.light .pool-track { background: rgba(2, 132, 199, 0.08); border-color: rgba(2, 132, 199, 0.2); }
+    body.light .pool-filled { background: rgba(2, 132, 199, 0.18); border-color: var(--cyan); }
+
+    /* ── THEME TOGGLE BUTTON ── */
+    #theme-btn {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      background: rgba(34, 211, 238, 0.05);
+      color: var(--dim);
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, color .2s;
+      backdrop-filter: blur(8px);
+      user-select: none;
+    }
+    #theme-btn:hover {
+      border-color: rgba(34, 211, 238, 0.5);
+      color: var(--text);
+    }
+    #theme-btn .tb-icon { font-size: 21px; }
+
+    /* ── BASE ── */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── BACKGROUND LAYERS ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(34, 211, 238, 0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, 0.016) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+          rgba(0, 0, 0, 0.06) 2px, rgba(0, 0, 0, 0.06) 4px);
+    }
+
+    .scan-beam {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 180px;
+      z-index: 3;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.035) 50%, transparent 100%);
+      animation: scan-beam 12s linear infinite;
+    }
+
+    @keyframes scan-beam {
+      from {
+        top: -180px;
+      }
+
+      to {
+        top: 100vh;
+      }
+    }
+
+    /* ── PROGRESS BAR ── */
+    #progress-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(34, 211, 238, 0.06);
+      z-index: 300;
+    }
+
+    #progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+      box-shadow: 0 0 14px var(--cyan), 0 0 28px rgba(34, 211, 238, 0.35);
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── DOT NAV ── */
+    #dot-nav {
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      display: flex;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .nav-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--muted);
+      cursor: pointer;
+      transition: all 0.35s ease;
+    }
+
+    .nav-dot.on {
+      background: var(--cyan);
+      box-shadow: 0 0 9px var(--cyan);
+      transform: scale(1.5);
+    }
+
+    /* ── COUNTER ── */
+    #counter {
+      position: fixed;
+      bottom: 20px;
+      right: 48px;
+      z-index: 300;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 21px;
+      color: var(--muted);
+      letter-spacing: 0.22em;
+    }
+
+    #counter .c {
+      color: var(--cyan);
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    /* ── KEY HINTS ── */
+    #hints {
+      position: fixed;
+      bottom: 22px;
+      left: 48px;
+      z-index: 300;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 20px;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(46, 68, 88, 0.55);
+      padding: 1px 7px;
+      border-radius: 2px;
+      font-size: 19px;
+      min-width: 22px;
+    }
+
+    /* ══════════════════════════════════════
+       SLIDES
+    ══════════════════════════════════════ */
+    #deck {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 128px 88px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(64px) scale(0.985);
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide.from-left {
+      transform: translateX(-64px) scale(0.985);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0) scale(1);
+    }
+
+    .inner {
+      width: 100%;
+      max-width: 1580px;
+    }
+
+    /* ── COMMON TEXT ATOMS ── */
+    .tag {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 20px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .tag::before {
+      content: '';
+      width: 26px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      box-shadow: 0 0 6px var(--cyan);
+    }
+
+    .tag.p {
+      color: var(--purple);
+    }
+
+    .tag.p::before {
+      background: linear-gradient(90deg, var(--purple), transparent);
+      box-shadow: 0 0 6px var(--purple);
+    }
+
+    .tag.g {
+      color: var(--green);
+    }
+
+    .tag.g::before {
+      background: linear-gradient(90deg, var(--green), transparent);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease 0.1s, transform 0.45s ease 0.1s;
+    }
+
+    .title.xl {
+      font-size: 84px;
+    }
+
+    .title.lg {
+      font-size: 68px;
+    }
+
+    .title.md {
+      font-size: 54px;
+    }
+
+    .c {
+      color: var(--cyan);
+      text-shadow: 0 0 32px rgba(34, 211, 238, 0.45);
+    }
+
+    .p {
+      color: var(--purple);
+      text-shadow: 0 0 32px rgba(249, 115, 22, 0.45);
+    }
+
+    .g {
+      color: var(--green);
+      text-shadow: 0 0 32px rgba(0, 255, 163, 0.4);
+    }
+
+    .a {
+      color: var(--amber);
+      text-shadow: 0 0 32px rgba(255, 184, 0, 0.4);
+    }
+
+    .divider {
+      height: 1px;
+      margin: 18px 0;
+      background: linear-gradient(90deg, rgba(34, 211, 238, 0.38), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease 0.25s;
+    }
+
+    .divider.p {
+      background: linear-gradient(90deg, rgba(249, 115, 22, 0.38), transparent);
+    }
+
+    .divider.g {
+      background: linear-gradient(90deg, rgba(0, 255, 163, 0.38), transparent);
+    }
+
+    /* active-state reveals */
+    .slide.active .tag {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.active .title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.active .divider {
+      opacity: 1;
+    }
+
+    /* staggered anim items */
+    .ai {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.42s ease, transform 0.42s ease;
+    }
+
+    .slide.active .ai:nth-child(1) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .28s;
+    }
+
+    .slide.active .ai:nth-child(2) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .38s;
+    }
+
+    .slide.active .ai:nth-child(3) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .48s;
+    }
+
+    .slide.active .ai:nth-child(4) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .58s;
+    }
+
+    .slide.active .ai:nth-child(5) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .68s;
+    }
+
+    .slide.active .ai:nth-child(6) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .78s;
+    }
+
+    .slide.active .ai:nth-child(7) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .86s;
+    }
+
+    .slide.active .ai:nth-child(8) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .92s;
+    }
+
+    .slide.active .ai:nth-child(9) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: .98s;
+    }
+
+    .slide.active .ai:nth-child(10) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 1.04s;
+    }
+
+    .slide.active .ai:nth-child(11) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 1.10s;
+    }
+
+    .slide.active .ai:nth-child(12) {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 1.16s;
+    }
+
+    /* ── LAYOUTS ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1.55fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .two-eq {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    /* ── BULLET LIST ── */
+    .blist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .blist li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 27px;
+      line-height: 1.55;
+      color: var(--dim);
+    }
+
+    .blist li .dia {
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      background: var(--cyan);
+      transform: rotate(45deg);
+      box-shadow: 0 0 8px var(--cyan);
+      margin-top: 7px;
+    }
+
+    .blist li .dia.g {
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .blist li strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* ── INFO CARD ── */
+    .icard {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bd);
+      border-radius: 3px;
+      padding: 22px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .icard::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.45), transparent);
+    }
+
+    /* ── SLIDE 3 kart tipografi hiyerarşisi ── */
+    #s3 .icard { padding: 26px 28px 22px; }
+    #s3 .icard-lbl { font-size: 22px; margin-bottom: 14px; }
+    #s3 .icard-val { font-size: 23px; color: var(--dim); line-height: 1.5; }
+    #s3 .icard-val strong {
+      display: block;
+      font-size: 32px;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 7px;
+    }
+
+    .icard-abbr {
+      position: absolute;
+      bottom: -6px;
+      right: 10px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 78px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: rgba(249, 115, 22, 0.1);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .icard-lbl {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.42em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .icard-lbl.p {
+      color: var(--purple);
+    }
+
+    .icard-lbl.g {
+      color: var(--green);
+    }
+
+    .icard-val {
+      font-size: 25px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .icard-val strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* ── PARTNER BADGES ── */
+    .psec {
+      margin-bottom: 22px;
+    }
+
+    .psec-ttl {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.44em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 11px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(46, 68, 88, 0.35);
+    }
+
+    .pbadges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pbadge {
+      padding: 7px 14px;
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      border-radius: 2px;
+      font-size: 23px;
+      color: var(--text);
+      background: rgba(34, 211, 238, 0.025);
+      font-family: 'Chakra Petch', sans-serif;
+    }
+
+    .pbadge.hi {
+      border-color: rgba(34, 211, 238, 0.42);
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.07);
+    }
+
+    .pbadge.p {
+      border-color: rgba(249, 115, 22, 0.3);
+      color: var(--purple);
+      background: rgba(249, 115, 22, 0.05);
+    }
+
+    /* ── STRATEGIC ITEMS ── */
+    .str {
+      display: flex;
+      margin-bottom: 13px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .str-bar {
+      width: 3px;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+    }
+
+    .str-bar.c {
+      background: var(--cyan);
+    }
+
+    .str-bar.p {
+      background: var(--purple);
+      box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+    }
+
+    .str-bar.g {
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(0, 255, 163, 0.4);
+    }
+
+    .str-bar.a {
+      background: var(--amber);
+      box-shadow: 0 0 8px rgba(255, 184, 0, 0.4);
+    }
+
+    .str-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 14px 22px;
+      background: rgba(34, 211, 238, 0.022);
+      border: 1px solid rgba(34, 211, 238, 0.07);
+      border-left: none;
+    }
+
+    .str-org {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      min-width: 200px;
+    }
+
+    .str-org.c {
+      color: var(--cyan);
+    }
+
+    .str-org.p {
+      color: var(--purple);
+    }
+
+    .str-org.g {
+      color: var(--green);
+    }
+
+    .str-org.a {
+      color: var(--amber);
+    }
+
+    .str-det {
+      font-size: 24px;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    /* ── TECH ITEMS ── */
+    .techitem {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 16px 20px;
+      border: 1px solid rgba(34, 211, 238, 0.09);
+      border-radius: 3px;
+      font-size: 25px;
+      color: var(--text);
+      background: rgba(34, 211, 238, 0.018);
+    }
+
+    .techitem .ti {
+      font-size: 30px;
+      flex-shrink: 0;
+    }
+
+    /* ── SPONSOR BLOCKS ── */
+    .sblk {
+      margin-bottom: 20px;
+    }
+
+    .scat {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.42em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .slist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .sitm {
+      padding: 10px 18px;
+      font-size: 25px;
+      font-weight: 600;
+      font-family: 'Chakra Petch', sans-serif;
+      border-radius: 2px;
+    }
+
+    .sitm.main {
+      border: 1px solid rgba(34, 211, 238, 0.32);
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.06);
+    }
+
+    .sitm.food {
+      border: 1px solid rgba(0, 255, 163, 0.26);
+      color: var(--green);
+      background: rgba(0, 255, 163, 0.04);
+    }
+
+    .sitm.drink {
+      border: 1px solid rgba(249, 115, 22, 0.26);
+      color: var(--purple);
+      background: rgba(249, 115, 22, 0.04);
+    }
+
+    /* ── LOGI CARDS ── */
+    .lcard {
+      padding: 26px;
+      border: 1px solid var(--card-bd);
+      border-radius: 3px;
+      background: var(--card-bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lcard::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.4), transparent);
+    }
+
+    .lcard-icon {
+      font-size: 38px;
+      margin-bottom: 14px;
+    }
+
+    .lcard-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 25px;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 10px;
+    }
+
+    .lcard-body {
+      font-size: 24px;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+
+    /* ── PRIZE ── */
+    .prize-wrap {}
+
+    .prize-lbl {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 20px;
+      letter-spacing: 0.42em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .prize-big {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 98px;
+      line-height: 1;
+      color: var(--purple);
+      text-shadow: 0 0 40px rgba(249, 115, 22, 0.5), 0 0 100px rgba(249, 115, 22, 0.18);
+      letter-spacing: -0.02em;
+    }
+
+    .prize-sub {
+      font-size: 26px;
+      color: var(--dim);
+      margin-top: 6px;
+    }
+
+    .prize-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .pcard {
+      flex: 1;
+      padding: 20px 22px;
+      border-radius: 3px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pcard.gold {
+      background: rgba(255, 184, 0, 0.05);
+      border: 1px solid rgba(255, 184, 0, 0.28);
+    }
+
+    .pcard.silver {
+      background: rgba(249, 115, 22, 0.05);
+      border: 1px solid rgba(249, 115, 22, 0.28);
+    }
+
+    .pcard.bronze {
+      background: rgba(34, 211, 238, 0.03);
+      border: 1px solid rgba(34, 211, 238, 0.18);
+    }
+
+    .pcard-rank {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .pcard.gold .pcard-rank {
+      color: var(--amber);
+    }
+
+    .pcard.silver .pcard-rank {
+      color: var(--purple);
+    }
+
+    .pcard.bronze .pcard-rank {
+      color: var(--cyan);
+    }
+
+    .pcard-num {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+    }
+
+    .pcard.gold .pcard-num {
+      color: var(--amber);
+      text-shadow: 0 0 20px rgba(255, 184, 0, 0.5);
+    }
+
+    .pcard.silver .pcard-num {
+      color: var(--purple);
+      text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+    }
+
+    .pcard.bronze .pcard-num {
+      color: var(--cyan);
+      text-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 25px;
+      color: var(--purple);
+      letter-spacing: 0.08em;
+      margin-top: 32px;
+      padding: 16px 24px;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      background: rgba(249, 115, 22, 0.04);
+      display: inline-block;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ══════════════════════════════════════
+       SLIDE 1 – COVER
+    ══════════════════════════════════════ */
+    #s1 {}
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      padding: 7px 16px;
+      border-radius: 2px;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 20px;
+      letter-spacing: 0.35em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(-12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    #s1.active .cover-badge {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.12s;
+    }
+
+    .cvdot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 8px var(--purple);
+      animation: cvpulse 2s ease-in-out infinite;
+    }
+
+    @keyframes cvpulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.35;
+      }
+    }
+
+    .cover-h1 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 122px;
+      line-height: 0.88;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+      display: block;
+      opacity: 0;
+      transform: translateY(-14px);
+      transition: opacity 0.6s ease 0.22s, transform 0.6s ease 0.22s;
+    }
+
+    #s1.active .cover-h1 {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cover-h2 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 38px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(248, 250, 252, 0.55);
+      letter-spacing: 0.05em;
+      margin-bottom: 52px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.5s ease 0.38s, transform 0.5s ease 0.38s;
+    }
+
+    #s1.active .cover-h2 {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cover-meta {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 23px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.52s;
+    }
+
+    #s1.active .cover-meta {
+      opacity: 1;
+    }
+
+    .cover-meta .org {
+      color: var(--text);
+    }
+
+    .cover-meta .date {
+      color: var(--purple);
+    }
+
+    .cover-meta .sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    /* corner frame */
+    .cv-frame {
+      position: absolute;
+      inset: -28px;
+      pointer-events: none;
+    }
+
+    .cf {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+    }
+
+    .cf.tl {
+      top: 0;
+      left: 0;
+      border-top: 1px solid rgba(34, 211, 238, 0.36);
+      border-left: 1px solid rgba(34, 211, 238, 0.36);
+    }
+
+    .cf.tr {
+      top: 0;
+      right: 0;
+      border-top: 1px solid rgba(34, 211, 238, 0.36);
+      border-right: 1px solid rgba(34, 211, 238, 0.36);
+    }
+
+    .cf.bl {
+      bottom: 0;
+      left: 0;
+      border-bottom: 1px solid rgba(34, 211, 238, 0.36);
+      border-left: 1px solid rgba(34, 211, 238, 0.36);
+    }
+
+    .cf.br {
+      bottom: 0;
+      right: 0;
+      border-bottom: 1px solid rgba(34, 211, 238, 0.36);
+      border-right: 1px solid rgba(34, 211, 238, 0.36);
+    }
+
+    /* glitch */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .glitch::before {
+      color: var(--cyan);
+      opacity: 0;
+      clip-path: polygon(0 18%, 100% 18%, 100% 28%, 0 28%);
+      animation: gl1 6s infinite;
+    }
+
+    .glitch::after {
+      color: var(--purple);
+      opacity: 0;
+      clip-path: polygon(0 58%, 100% 58%, 100% 70%, 0 70%);
+      animation: gl2 6s infinite;
+    }
+
+    @keyframes gl1 {
+
+      0%,
+      92%,
+      100% {
+        opacity: 0;
+        transform: none;
+      }
+
+      93% {
+        opacity: .75;
+        transform: translateX(-5px);
+      }
+
+      94% {
+        opacity: .75;
+        transform: translateX(4px);
+      }
+
+      95% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes gl2 {
+
+      0%,
+      94%,
+      100% {
+        opacity: 0;
+        transform: none;
+      }
+
+      95% {
+        opacity: .6;
+        transform: translateX(7px);
+      }
+
+      96% {
+        opacity: .6;
+        transform: translateX(-5px);
+      }
+
+      97% {
+        opacity: 0;
+      }
+    }
+
+    /* ── S4 cards ── */
+    .s4-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .s4-card {
+      background: rgba(0,255,163,0.022);
+      border: 1px solid rgba(0,255,163,0.11);
+      border-radius: 3px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .s4-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,255,163,0.38), transparent);
+    }
+    .s4-card-lbl {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px; letter-spacing: 0.42em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 10px;
+    }
+    .s4-card-ttl {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700; font-size: 27px; color: var(--text);
+      margin-bottom: 9px; line-height: 1.15;
+    }
+    .s4-card-body {
+      font-size: 23px; color: var(--dim); line-height: 1.6;
+    }
+    .s4-card-body strong { color: var(--text); font-weight: 700; }
+
+    /* ── S7 LAYOUT ── */
+    .s8-bottom { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-top: 22px; border-top: 1px solid rgba(34,211,238,0.1); }
+    .s8-col-lbl { font-family: 'Chakra Petch', monospace; font-size: 19px; letter-spacing: 0.44em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(248,250,252,0.12); }
+
+    /* ── POOL VISUALIZATION ── */
+    .pool-wrap { margin: 20px 0 28px; }
+    .pool-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+    .pool-amount { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 66px; line-height: 1; color: var(--green); text-shadow: 0 0 40px rgba(0,255,163,0.45); letter-spacing: -0.02em; }
+    .pool-amount-note { font-family: 'Chakra Petch', monospace; font-size: 19px; letter-spacing: 0.38em; text-transform: uppercase; color: var(--dim); margin-top: 6px; }
+    .pool-right-note { text-align: right; font-family: 'Chakra Petch', monospace; font-size: 25px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); font-weight: 700; text-shadow: 0 0 24px rgba(0,255,163,0.5); }
+    .pool-track { height: 58px; border: 1px solid rgba(0,255,163,0.14); border-radius: 3px; overflow: hidden; display: flex; }
+    .pool-filled { width: 36%; background: linear-gradient(90deg, rgba(0,255,163,0.08), rgba(0,255,163,0.2)); border-right: 2px solid var(--green); box-shadow: inset 0 0 24px rgba(0,255,163,0.07); display: flex; align-items: center; padding: 0 20px; flex-shrink: 0; }
+    .pool-filled-lbl { font-family: 'Chakra Petch', monospace; font-size: 18px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--green); white-space: nowrap; }
+    .pool-empty { flex: 1; background: repeating-linear-gradient(-45deg, transparent, transparent 7px, rgba(255,255,255,0.01) 7px, rgba(255,255,255,0.01) 14px); display: flex; align-items: center; padding: 0 28px; gap: 16px; }
+    .pool-arrows { color: rgba(0,255,163,0.75); font-size: 26px; letter-spacing: -4px; animation: pool-pulse 2.4s ease-in-out infinite; }
+    .pool-empty-lbl { font-family: 'Chakra Petch', monospace; font-size: 19px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--dim); font-weight: 700; }
+    .pool-caption { font-family: 'Chakra Petch', monospace; font-size: 21px; letter-spacing: 0.12em; color: var(--dim); margin-top: 10px; font-style: italic; }
+    @keyframes pool-pulse { 0%, 100% { opacity: 0.4; transform: translateX(0); } 50% { opacity: 1; transform: translateX(6px); } }
+
+    /* ── S6 KATEGORİLİ GRID ── */
+    .s6-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 28px; }
+    .s6-cat { display: flex; flex-direction: column; gap: 10px; }
+    .s6-cat-hd {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px; letter-spacing: 0.45em; text-transform: uppercase;
+      color: var(--green); padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,255,163,0.15);
+      margin-bottom: 2px;
+    }
+
+    /* ── S5 İKİ KOLON LAYOUT ── */
+    .s5-grid {
+      display: grid;
+      grid-template-columns: 1fr 18px 1fr;
+      gap: 0 32px;
+      align-items: start;
+    }
+    .s5-col { display: flex; flex-direction: column; gap: 16px; }
+    .s5-col-hd { margin-bottom: 4px; }
+    .s5-col-ttl {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700; font-size: 36px; letter-spacing: -0.01em;
+      color: var(--text); margin-top: 8px;
+    }
+    .s5-col-ttl.p { color: var(--purple); text-shadow: 0 0 24px rgba(249,115,22,0.3); }
+    .s5-divider {
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(34,211,238,0.18) 20%, rgba(34,211,238,0.18) 80%, transparent);
+      align-self: stretch;
+      justify-self: center;
+    }
+
+    /* ── POTANSIYEL SPONSORLAR ── */
+    .pot-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(249,115,22,0.1); }
+    .pot-lbl { font-family: 'Chakra Petch', monospace; font-size: 19px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; }
+    .pot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .pot-col-ttl { font-family: 'Chakra Petch', monospace; font-size: 18px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(249,115,22,0.55); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(249,115,22,0.12); }
+    .pot-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pot-chip { font-family: 'Chakra Petch', sans-serif; font-size: 20px; padding: 3px 9px; border: 1px solid rgba(249,115,22,0.14); background: rgba(249,115,22,0.02); color: var(--dim); border-radius: 2px; }
+    .pot-chip.hi { border-color: rgba(249,115,22,0.3); color: var(--purple); background: rgba(249,115,22,0.05); }
+
+    /* ── OPSİYON LAYOUTS (5-8) ── */
+    .opt-sec-lbl {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px; letter-spacing: 0.45em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(34,211,238,0.12);
+    }
+    /* A — 3 eşit sütun */
+    .opt-a-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 20px; }
+    .opt-a-col { padding: 22px 22px; border: 1px solid rgba(34,211,238,0.09); background: rgba(34,211,238,0.016); border-radius: 3px; }
+    /* B — 2 col üst + şerit alt */
+    .opt-b-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 20px; }
+    .opt-b-top-col { padding: 22px; border: 1px solid rgba(34,211,238,0.09); background: rgba(34,211,238,0.016); border-radius: 3px; }
+    .opt-b-bot { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(34,211,238,0.1); }
+    .opt-b-str-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .opt-b-str-item { display: flex; align-items: center; gap: 10px; padding: 11px 18px; border: 1px solid rgba(34,211,238,0.09); border-radius: 2px; background: rgba(34,211,238,0.016); font-size: 23px; }
+    .opt-b-str-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .opt-b-str-org { font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 23px; }
+    .opt-b-str-det { font-size: 22px; color: var(--dim); }
+    /* C — sol büyük / sağ dar 2 katman */
+    .opt-c-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; margin-top: 20px; align-items: start; }
+    .opt-c-right { display: flex; flex-direction: column; gap: 20px; }
+    .opt-c-box { padding: 20px 22px; border: 1px solid rgba(34,211,238,0.09); background: rgba(34,211,238,0.016); border-radius: 3px; }
+    .opt-c-small .str-org { font-size: 22px; min-width: 0; }
+    .opt-c-small .str-det { font-size: 22px; }
+    .opt-c-small .str-body { padding: 10px 16px; gap: 18px; }
+    /* D — tek sütun satır satır */
+    .opt-d-wrap { margin-top: 20px; }
+    .opt-d-row { display: grid; grid-template-columns: 200px 1fr; gap: 40px; padding: 20px 0; border-bottom: 1px solid rgba(34,211,238,0.07); align-items: start; }
+    .opt-d-row:first-child { padding-top: 0; }
+    .opt-d-key { font-family: 'Chakra Petch', monospace; font-size: 20px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cyan); padding-top: 3px; }
+
+    /* s10 right col */
+    .s7-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 54px;
+    }
+
+    /* ── VİZYON VERSİYON ETIKETI ── */
+    .ver-tag {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid rgba(49, 65, 88, 0.4);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ── VERSİYON A — arka plan dev numara ── */
+    .bgnum-wrap {
+      position: absolute;
+      right: 80px;
+      bottom: -60px;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .bgnum {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 430px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: rgba(34, 211, 238, 0.06);
+      display: block;
+    }
+
+    .blist.accented {
+      position: relative;
+      z-index: 1;
+    }
+
+    .blist.accented li {
+      border-left: 2px solid rgba(34, 211, 238, 0.3);
+      background: rgba(34, 211, 238, 0.022);
+      padding: 14px 18px;
+      border-radius: 0 3px 3px 0;
+      gap: 0;
+    }
+
+    .blist.accented li .dia {
+      display: none;
+    }
+
+    /* ── VERSİYON B — iki kolon ── */
+    .s2b-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .s2b-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .s2b-item {
+      display: flex;
+      gap: 0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .s2b-bar {
+      width: 2px;
+      flex-shrink: 0;
+      background: var(--cyan);
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+    }
+
+    .s2b-body {
+      flex: 1;
+      padding: 16px 22px;
+      background: rgba(34, 211, 238, 0.02);
+      border: 1px solid rgba(34, 211, 238, 0.08);
+      border-left: none;
+    }
+
+    .s2b-body strong {
+      display: block;
+      color: var(--text);
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .s2b-body span {
+      font-size: 24px;
+      color: var(--dim);
+      line-height: 1.55;
+    }
+
+    /* ── COVER İKİ KOLON LAYOUT ── */
+    .s1-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      align-items: center;
+      padding: 80px;
+    }
+
+    .s1-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-logo {
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.7s ease 0.45s, transform 0.7s ease 0.45s;
+    }
+
+    .cover-lockup {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 36px;
+      border: 1px solid rgba(34, 211, 238, 0.15);
+      border-radius: 12px;
+      background: rgba(34, 211, 238, 0.04);
+    }
+
+    .lockup-img {
+      height: 140px;
+      width: 140px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 28px rgba(34, 211, 238, 0.3)) drop-shadow(0 0 8px rgba(249, 115, 22, 0.15));
+    }
+
+    .lockup-divider {
+      width: 1px;
+      height: 90px;
+      background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.5), transparent);
+      flex-shrink: 0;
+    }
+
+    .lockup-text {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      line-height: 1;
+    }
+
+    .lockup-pre {
+      font-family: 'Chakra Petch', monospace;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(249, 115, 22, 0.75);
+    }
+
+    .lockup-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 43px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+
+    #s1.active .cover-logo {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+  <div class="scan-beam"></div>
+
+  <div id="progress-wrap">
+    <div id="progress-bar" style="width:10%"></div>
+  </div>
+  <div id="dot-nav"></div>
+  <div id="counter"><span class="c" id="cnum">01</span> / <span id="total-display">8</span></div>
+  <button id="theme-btn" title="Tema değiştir (T)"><span class="tb-icon">☀</span><span id="tb-label">LIGHT</span></button>
+  <div id="hints">
+    <span><span class="kbd">←</span> <span class="kbd">→</span></span>
+    <span><span class="kbd">SPACE</span> ileri</span>
+  </div>
+
+  <div id="deck">
+
+    <!-- ═══════════ SLIDE 1 — KAPAK ═══════════ -->
+    <div class="slide active" id="s1">
+      <div class="inner" style="position:relative">
+        <div class="cv-frame">
+          <div class="cf tl"></div>
+          <div class="cf tr"></div>
+          <div class="cf bl"></div>
+          <div class="cf br"></div>
+        </div>
+        <div class="s1-left">
+          <div class="cover-badge">
+            <div class="cvdot"></div> MSKÜ VBT Topluluğu &nbsp;·&nbsp; Yazılım Mühendisliği Bölümü
+          </div>
+          <h1 class="cover-h1">
+            <span class="glitch" data-text="HACKATHON:">HACKATHON:</span><br>
+            <span class="c">AKILLI ŞEHİRLER</span>
+          </h1>
+          <p class="cover-h2">Paydaş Toplantısı &nbsp;·&nbsp; 2026</p>
+          <div class="cover-meta">
+            <span class="org">MSKÜ VBT Topluluğu</span>
+            <span class="sep"></span>
+            <span class="org">Yazılım Mühendisliği Bölümü</span>
+            <span class="sep"></span>
+            <span class="date">13 – 14 Mayıs 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE 2 — NEREDEYİZ? ═══════════ -->
+    <div class="slide" id="s2">
+      <div class="inner" style="position:relative; overflow:hidden">
+        <div class="bgnum-wrap"><div class="bgnum">02</div></div>
+        <div class="tag" style="position:relative;z-index:1">02 &nbsp;/&nbsp; Hazırlık Durumu</div>
+        <h2 class="title xl" style="position:relative;z-index:1">Neredeyiz?<br><span class="c">Bugün İtibarıyla</span></h2>
+        <div class="divider" style="position:relative;z-index:1"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+
+          <!-- Sol: Durum kartları -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="icard ai">
+              <div class="icard-abbr" style="color:var(--green);font-size:29px">✓</div>
+              <div class="icard-lbl" style="color:var(--green)">Tamamlandı</div>
+              <div class="icard-val"><strong>Web Sitesi</strong><br>vbthackathon.com.tr canlı</div>
+            </div>
+            <div class="icard ai">
+              <div class="icard-abbr" style="color:var(--green);font-size:29px">✓</div>
+              <div class="icard-lbl" style="color:var(--green)">Tamamlandı</div>
+              <div class="icard-val"><strong>Başvuru Sistemi</strong><br>1 Nisan'da açılıyor</div>
+            </div>
+            <div class="icard ai">
+              <div class="icard-abbr" style="color:var(--green);font-size:29px">✓</div>
+              <div class="icard-lbl" style="color:var(--green)">Tamamlandı</div>
+              <div class="icard-val"><strong>Teknik Altyapı</strong><br>Sunucu, API, veritabanı</div>
+            </div>
+            <div class="icard ai">
+              <div class="icard-abbr" style="color:var(--green);font-size:29px">✓</div>
+              <div class="icard-lbl" style="color:var(--green)">Onaylandı</div>
+              <div class="icard-val"><strong>Etkinlik Mekanı — AKM</strong><br>Kullanım onayı alındı,<br>24 saat kesintisiz erişim</div>
+            </div>
+          </div>
+
+          <!-- Sağ: Cloudflare trafik verisi -->
+          <div class="ai" style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-family:'Chakra Petch',monospace;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:rgba(34,211,238,0.5)">Site Trafiği — Son 30 Gün</div>
+            <img src="../images/cloudflaredata.png" alt="Cloudflare Unique Visitors" style="width:100%;border-radius:8px;border:1px solid rgba(34,211,238,0.15)">
+            <div style="display:flex;gap:20px">
+              <div style="text-align:center">
+                <div style="font-family:'Chakra Petch',monospace;font-size:28px;font-weight:700;color:var(--cyan)">477</div>
+                <div style="font-size:14px;color:var(--dim)">Tekil Ziyaretçi</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-family:'Chakra Petch',monospace;font-size:28px;font-weight:700;color:var(--cyan)">231</div>
+                <div style="font-size:14px;color:var(--dim)">Maks. Günlük</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE 3 — MEKAN ═══════════ -->
+    <div class="slide" id="s3">
+      <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center">
+
+        <!-- Sol: Fotoğraf -->
+        <div class="ai" style="border-radius:12px;overflow:hidden;border:1px solid rgba(34,211,238,0.15);height:420px;background:rgba(34,211,238,0.03);display:flex;align-items:center;justify-content:center">
+          <img src="../images/mekan.png" alt="Atatürk Kültür Merkezi" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+
+        <!-- Sağ: İçerik -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div class="tag c" style="margin-bottom:16px">03 &nbsp;/&nbsp; Etkinlik Mekanı</div>
+            <h2 class="title sm">Atatürk Kültür &nbsp;<span class="c">Merkezi</span></h2>
+            <div class="divider" style="margin-bottom:20px"></div>
+          </div>
+
+          <div class="ai" style="padding:20px 24px;border:1px solid rgba(34,211,238,0.2);border-radius:8px;background:rgba(34,211,238,0.04)">
+            <div style="font-family:'Chakra Petch',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:rgba(34,211,238,0.5);margin-bottom:10px">Ulusal Yazılım Mühendisliği Sempozyumu</div>
+            <div style="font-size:21px;font-weight:600;color:var(--text);line-height:1.5">AKM, Ulusal Yazılım Mühendisliği Sempozyumu'na ev sahipliği yapan köklü bir mekan.</div>
+          </div>
+
+          <div class="ai" style="padding:20px 24px;border:1px solid rgba(249,115,22,0.2);border-radius:8px;background:rgba(249,115,22,0.04)">
+            <div style="font-family:'Chakra Petch',monospace;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:rgba(249,115,22,0.5);margin-bottom:10px">Kariyer Günleri</div>
+            <div style="font-size:21px;font-weight:600;color:var(--text);line-height:1.5">MSKÜ Kariyer Günleri'nin geleneksel mekanı — kurumsal ölçekte etkinlik kapasitesi kanıtlanmış.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE 4 — TAKVİM ═══════════ -->
+    <div class="slide" id="s3">
+      <div class="inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+        <div class="tag p" style="align-self:flex-start">04 &nbsp;/&nbsp; Takvim</div>
+        <h2 class="title md" style="align-self:flex-start;margin-bottom:0">Kritik<br><span class="p">Tarihler</span></h2>
+        <div class="divider p" style="align-self:flex-start;margin-bottom:56px"></div>
+
+        <!-- Timeline track -->
+        <div style="position:relative;width:100%;max-width:1100px">
+
+          <!-- Yatay çizgi -->
+          <div style="position:absolute;top:28px;left:80px;right:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,0.3) 10%,rgba(34,211,238,0.3) 90%,transparent)"></div>
+
+          <!-- Milestones -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:0 40px">
+
+            <!-- 1 Nisan -->
+            <div class="ai" style="display:flex;flex-direction:column;align-items:center;gap:0;width:200px">
+              <div style="width:56px;height:56px;border-radius:50%;border:1px solid rgba(249,115,22,0.4);background:rgba(249,115,22,0.06);display:flex;align-items:center;justify-content:center;position:relative;z-index:1">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--purple);box-shadow:0 0 12px var(--purple)"></div>
+              </div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:35px;font-weight:700;color:var(--purple);letter-spacing:-.01em;margin-top:20px;line-height:1">01</div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:20px;letter-spacing:.2em;color:rgba(249,115,22,0.6);margin-bottom:12px">NİSAN</div>
+              <div style="font-size:22px;font-weight:600;color:var(--text);margin-bottom:4px">Başvuru Açılışı</div>
+              <div style="font-size:20px;color:var(--dim)">Başvuru formu<br>aktif hale geliyor</div>
+            </div>
+
+            <!-- 23 Nisan -->
+            <div class="ai" style="display:flex;flex-direction:column;align-items:center;gap:0;width:200px">
+              <div style="width:56px;height:56px;border-radius:50%;border:1px solid rgba(249,115,22,0.4);background:rgba(249,115,22,0.06);display:flex;align-items:center;justify-content:center;position:relative;z-index:1">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--purple);box-shadow:0 0 12px var(--purple)"></div>
+              </div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:35px;font-weight:700;color:var(--purple);letter-spacing:-.01em;margin-top:20px;line-height:1">23</div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:20px;letter-spacing:.2em;color:rgba(249,115,22,0.6);margin-bottom:12px">NİSAN</div>
+              <div style="font-size:22px;font-weight:600;color:var(--text);margin-bottom:4px">Başvuru Kapanışı</div>
+              <div style="font-size:20px;color:var(--dim)">Son başvuru<br>günü</div>
+            </div>
+
+            <!-- 30 Nisan -->
+            <div class="ai" style="display:flex;flex-direction:column;align-items:center;gap:0;width:200px">
+              <div style="width:56px;height:56px;border-radius:50%;border:1px solid rgba(249,115,22,0.4);background:rgba(249,115,22,0.06);display:flex;align-items:center;justify-content:center;position:relative;z-index:1">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--purple);box-shadow:0 0 12px var(--purple)"></div>
+              </div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:35px;font-weight:700;color:var(--purple);letter-spacing:-.01em;margin-top:20px;line-height:1">30</div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:20px;letter-spacing:.2em;color:rgba(249,115,22,0.6);margin-bottom:12px">NİSAN</div>
+              <div style="font-size:22px;font-weight:600;color:var(--text);margin-bottom:4px">Ekip Duyurusu</div>
+              <div style="font-size:20px;color:var(--dim)">Seçilen 15 ekip<br>açıklanıyor</div>
+            </div>
+
+            <!-- 13-14 Mayıs — vurgu -->
+            <div class="ai" style="display:flex;flex-direction:column;align-items:center;gap:0;width:220px">
+              <div style="width:72px;height:72px;border-radius:50%;border:1px solid rgba(34,211,238,0.5);background:rgba(34,211,238,0.08);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 32px rgba(34,211,238,0.15);margin-top:-8px">
+                <div style="width:14px;height:14px;border-radius:50%;background:var(--cyan);box-shadow:0 0 20px var(--cyan)"></div>
+              </div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:35px;font-weight:700;color:var(--cyan);letter-spacing:-.01em;margin-top:20px;line-height:1">13–14</div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:20px;letter-spacing:.2em;color:rgba(34,211,238,0.6);margin-bottom:12px">MAYIS</div>
+              <div style="font-size:22px;font-weight:700;color:var(--cyan);margin-bottom:4px">VBT Hackathon 2026</div>
+              <div style="font-size:20px;color:var(--dim)">AKM<br>MSKÜ</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Alt bilgi bandı -->
+        <div class="ai" style="margin-top:48px;display:flex;align-items:center;justify-content:center;gap:32px;padding:16px 36px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.02)">
+          <span style="font-size:22px;color:var(--dim)">24 Saat Kesintisiz</span>
+          <span style="color:rgba(34,211,238,0.25)">·</span>
+          <span style="font-size:22px;color:var(--dim)">15 Takım</span>
+          <span style="color:rgba(34,211,238,0.25)">·</span>
+          <span style="font-size:22px;color:var(--dim)">3–5 Kişi / Ekip</span>
+          <span style="color:rgba(34,211,238,0.25)">·</span>
+          <span style="font-size:22px;color:var(--cyan);font-weight:600">₺50.000 Ödül Havuzu</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE 4 — MEVCUT PAYDAŞ KATKILARI ═══════════ -->
+    <div class="slide" id="s4">
+      <div class="inner">
+        <div class="tag">05 &nbsp;/&nbsp; Ekosistem Desteği</div>
+        <h2 class="title sm">Bize Destek &nbsp;<span class="c">Verenler</span></h2>
+        <div class="divider" style="margin-bottom:16px"></div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+
+          <div class="str ai">
+            <div class="str-bar p"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org p" style="min-width:0">Yazılım Müh. Bölüm Başkanlığı</div>
+              <div class="str-det">Akademik rehberlik</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar a"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org a" style="min-width:0">Sıtkı Koçman Vakfı</div>
+              <div class="str-det">150 kişilik makarna — final öğle yemeği</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar g"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org g" style="min-width:0">Little Caesar's</div>
+              <div class="str-det">15 orta boy karışık pizza</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar g"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org g" style="min-width:0">Limon Tantuni</div>
+              <div class="str-det">60 tavuk tantuni dürüm</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar g"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org g" style="min-width:0">Öncü Döner</div>
+              <div class="str-det">60 tavuk döner dürüm</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar c"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org c" style="min-width:0">Arabica</div>
+              <div class="str-det">Kahve ve içecek ikramı</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar c"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org c" style="min-width:0">CoffeeMin</div>
+              <div class="str-det">İçecek &amp; yiyecek</div>
+            </div>
+          </div>
+
+          <div class="str ai">
+            <div class="str-bar p"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org p" style="min-width:0">PAÜ Siber &amp; Dijital Dönüşüm</div>
+              <div class="str-det">Görünürlük &amp; operasyonel destek</div>
+            </div>
+          </div>
+
+
+          <div class="str ai">
+            <div class="str-bar c"></div>
+            <div class="str-body" style="padding:10px 14px">
+              <div class="str-org c" style="min-width:0">MUPA — Muğla Planlama Ajansı</div>
+              <div class="str-det">Açık veri seti temini</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── Kendi Taahhütlerimiz bölümü ── -->
+        <div style="margin-top:20px;display:flex;align-items:center;gap:12px">
+          <div style="height:1px;flex:1;background:rgba(248,250,252,0.07)"></div>
+          <div style="font-family:'Chakra Petch',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">Kendi Taahhütlerimiz</div>
+          <div style="height:1px;flex:1;background:rgba(248,250,252,0.07)"></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
+
+          <div class="str ai" style="align-items:center;gap:0">
+            <div class="str-bar g"></div>
+            <div class="str-body" style="padding:10px 14px;flex:1">
+              <div class="str-org g" style="min-width:0">VBT Topluluğu — Ödül Havuzu</div>
+              <div class="str-det">Öz kaynaktan karşılandı</div>
+            </div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:20px;font-weight:900;color:var(--green);padding-right:16px;white-space:nowrap">50K ₺</div>
+          </div>
+
+          <div class="str ai" style="align-items:center;gap:0">
+            <div class="str-bar" style="background:var(--amber)"></div>
+            <div class="str-body" style="padding:10px 14px;flex:1">
+              <div class="str-org" style="min-width:0;color:var(--amber)">TTO — Swag Pack</div>
+              <div class="str-det">Tişört · Çanta · Defter · Sticker</div>
+            </div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:20px;font-weight:900;color:var(--amber);padding-right:16px;white-space:nowrap">50K ₺</div>
+          </div>
+
+          <div class="str ai" style="align-items:center;gap:0">
+            <div class="str-bar c"></div>
+            <div class="str-body" style="padding:10px 14px;flex:1">
+              <div class="str-org c" style="min-width:0">VBT Topluluğu — Reklam</div>
+              <div class="str-det">Sosyal medya · Dijital tanıtım</div>
+            </div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:20px;font-weight:900;color:var(--cyan);padding-right:16px;white-space:nowrap">10K ₺</div>
+          </div>
+
+        </div>
+
+        <!-- Toplam bandı -->
+        <div class="ai" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:40px;padding:14px 32px;border:1px solid rgba(248,250,252,0.08);border-radius:8px;background:rgba(248,250,252,0.02)">
+          <div style="text-align:center">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'Chakra Petch',monospace;margin-bottom:2px">Nakdi Taahhüt</div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:28px;font-weight:900;background:linear-gradient(90deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">110.000 ₺</div>
+          </div>
+          <div style="width:1px;height:40px;background:rgba(248,250,252,0.1)"></div>
+          <div style="text-align:center">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'Chakra Petch',monospace;margin-bottom:5px">Ayni Destek</div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:13px;font-weight:700;color:rgba(249,115,22,0.8);margin-bottom:3px">MUPA — 2 Kahvaltı · 1 Akşam Yemeği</div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:13px;font-weight:700;color:rgba(34,211,238,0.8)">Local İşletmeler — 1 Öğle · 1 Gece İkramı · 1 Kapanış İkramı</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE — TÜRK TELEKOM ═══════════ -->
+    <div class="slide" id="s-tt">
+      <div class="inner">
+        <div class="tag c">07 &nbsp;/&nbsp; Türk Telekomünikasyon A.Ş. — Muğla İl Müdürlüğü</div>
+        <h2 class="title sm">Ödül Havuzuna &nbsp;<span class="c">Ek Katkı Talebi</span></h2>
+        <div class="divider" style="margin-bottom:32px"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:stretch">
+
+          <!-- Sol: Büyük rakam -->
+          <div class="ai" style="position:relative;border:1px solid rgba(34,211,238,0.25);border-radius:16px;overflow:hidden;background:rgba(34,211,238,0.02);padding:48px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)"></div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(34,211,238,0.45)">Talep Edilen Destek</div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:96px;font-weight:900;color:var(--cyan);line-height:1;text-shadow:0 0 60px rgba(34,211,238,0.4)">100K</div>
+            <div style="font-family:'Chakra Petch',monospace;font-size:28px;color:rgba(34,211,238,0.5)">TL</div>
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(34,211,238,0.1);font-size:15px;color:var(--muted);text-align:center">Ödül havuzuna ek katkı olarak aktarılacaktır.</div>
+          </div>
+
+          <!-- Sağ: Karşılığında -->
+          <div class="ai" style="position:relative;border:1px solid rgba(34,211,238,0.15);border-radius:16px;overflow:hidden;background:rgba(34,211,238,0.01);padding:30px 32px;display:flex;flex-direction:column;gap:12px">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)"></div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="font-family:'Chakra Petch',monospace;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:rgba(34,211,238,0.45)">Karşılığında</div>
+              <div style="font-family:'Chakra Petch',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(34,211,238,0.3);border-radius:20px;color:var(--cyan);background:rgba(34,211,238,0.06)">Eş-Ana Sponsorluk</div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Etkinlik alanında <strong>stand açma hakkı</strong></div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Etkinlik alanında <strong>fotoğraf &amp; video çekim izni</strong></div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Web sitesi, afiş ve tüm basılı materyallerde <strong>logo</strong></div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Açılış &amp; kapanış töreninde <strong>sahne sunumu</strong> hakkı</div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Sosyal medya paylaşımlarında <strong>etiketleme &amp; öne çıkarma</strong></div>
+            </div>
+
+            <div class="ai" style="padding:13px 16px;border:1px solid rgba(34,211,238,0.12);border-radius:8px;background:rgba(34,211,238,0.03);display:flex;align-items:center;gap:12px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;box-shadow:0 0 8px var(--cyan)"></div>
+              <div style="font-size:17px;color:var(--text)">Katılımcı listesi &amp; <strong>etkinlik sonrası raporuna</strong> erişim</div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ SLIDE — TEŞEKKÜRLER ═══════════ -->
+    <div class="slide" id="s-fin">
+      <div class="inner" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center">
+        <div style="display:flex; align-items:center; gap:16px; justify-content:center; margin-bottom:32px; font-family:'Chakra Petch',monospace; font-size: 20px; letter-spacing:0.5em; text-transform:uppercase; color:var(--cyan)">
+          <span style="width:40px; height:1px; background:linear-gradient(270deg,var(--cyan),transparent); box-shadow:0 0 6px var(--cyan); display:block"></span>
+          MSKÜ VBT &nbsp;·&nbsp; Yazılım Mühendisliği Bölümü
+          <span style="width:40px; height:1px; background:linear-gradient(90deg,var(--cyan),transparent); box-shadow:0 0 6px var(--cyan); display:block"></span>
+        </div>
+        <h1 style="font-family:'Chakra Petch',sans-serif; font-weight:700; font-size: 128px; line-height:1; letter-spacing:-0.03em; text-transform:uppercase; margin-bottom:32px">
+          <span class="glitch g" data-text="TEŞEKKÜRLER" style="text-shadow:0 0 60px rgba(0,255,163,0.4)">TEŞEKKÜRLER</span>
+        </h1>
+        <div style="width:120px; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); margin-bottom:28px"></div>
+        <div style="font-family:'Chakra Petch',monospace; font-size: 32px; letter-spacing:0.35em; text-transform:uppercase; color:var(--dim); margin-bottom:48px">Soru &amp; Cevap</div>
+        <div class="closing ai">
+          <span style="color:var(--muted)">vbthackathon.com.tr &nbsp;·&nbsp;</span>13 – 14 Mayıs 2026<span class="blink">_</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- #deck -->
+
+  <script>
+    /* ═══════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════ */
+    const slides = document.querySelectorAll('.slide');
+    const TOTAL = slides.length;
+    let current = 0;
+    let busy = false;
+
+    // Build dot nav
+    const dotNav = document.getElementById('dot-nav');
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'nav-dot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotNav.appendChild(d);
+    });
+
+    function setUI(idx) {
+      document.getElementById('cnum').textContent = String(idx + 1).padStart(2, '0');
+      document.getElementById('total-display').textContent = TOTAL;
+      document.getElementById('progress-bar').style.width = ((idx + 1) / TOTAL * 100) + '%';
+      document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+    }
+
+    function goTo(idx) {
+      if (busy || idx === current || idx < 0 || idx >= TOTAL) return;
+      busy = true;
+
+      const forward = idx > current;
+      const entering = slides[idx];
+      const leaving = slides[current];
+
+      // Position entering slide instantly (no transition)
+      entering.style.transition = 'none';
+      entering.classList.remove('active', 'from-left');
+      if (!forward) entering.classList.add('from-left');
+      void entering.offsetWidth; // force reflow
+
+      // Restore transition, then animate
+      entering.style.transition = '';
+      entering.classList.add('active');
+
+      // Animate leaving
+      leaving.classList.remove('active');
+      if (forward) leaving.classList.add('from-left');
+
+      current = idx;
+      setUI(idx);
+
+      setTimeout(() => {
+        leaving.classList.remove('from-left');
+        busy = false;
+      }, 650);
+    }
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+    });
+
+    // Click
+    document.getElementById('deck').addEventListener('click', e => {
+      if (e.target.closest('#dot-nav')) return;
+      e.clientX > window.innerWidth / 2 ? goTo(current + 1) : goTo(current - 1);
+    });
+
+    // Touch / swipe
+    let tx = 0;
+    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const dx = tx - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 50) dx > 0 ? goTo(current + 1) : goTo(current - 1);
+    });
+
+    setUI(0);
+
+    /* ═══════════════════════════════════════
+       PARTICLE CANVAS
+    ═══════════════════════════════════════ */
+    /* ── THEME TOGGLE ── */
+    const themeBtn = document.getElementById('theme-btn');
+    const tbLabel = document.getElementById('tb-label');
+    let isLight = false;
+    function toggleTheme() {
+      isLight = !isLight;
+      document.body.classList.toggle('light', isLight);
+      themeBtn.querySelector('.tb-icon').textContent = isLight ? '🌙' : '☀';
+      tbLabel.textContent = isLight ? 'DARK' : 'LIGHT';
+    }
+    themeBtn.addEventListener('click', e => { e.stopPropagation(); toggleTheme(); });
+    document.addEventListener('keydown', e => { if (e.key === 't' || e.key === 'T') toggleTheme(); });
+
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, pts;
+
+    const PALETTES = [
+      [34, 211, 238],   // cyan
+      [249, 115, 22],   // purple
+      [34, 211, 238],   // green
+    ];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', () => { resize(); init(); });
+    resize();
+
+    function init() {
+      const n = Math.floor(W * H / 16000);
+      pts = Array.from({ length: n }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28,
+        r: Math.random() * 1.4 + 0.5,
+        col: PALETTES[Math.floor(Math.random() * PALETTES.length)],
+      }));
+    }
+    init();
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+
+      // connections
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x;
+          const dy = pts[i].y - pts[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 110) {
+            ctx.strokeStyle = isLight ? `rgba(2,132,199,${(1 - d / 110) * 0.22})` : `rgba(34,211,238,${(1 - d / 110) * 0.1})`;
+            ctx.lineWidth = 0.4;
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // particles
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        const [r, g, b] = p.col;
+        const glowA = isLight ? 0.14 : 0.07;
+        const coreA = isLight ? 0.6  : 0.45;
+        // glow halo
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${glowA})`; ctx.fill();
+        // core
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${coreA})`; ctx.fill();
+      });
+
+      requestAnimationFrame(frame);
+    }
+    frame();
+  </script>
+</body>
+
+</html>
