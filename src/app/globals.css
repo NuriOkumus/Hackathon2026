@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #05050a;
+  /* deep cyberpunk black */
+  --color-foreground: #f8fafc;
+  /* slate-50 */
+
+  --color-primary: #22d3ee;
+  /* cyan-400 */
+  --color-primary-dark: #0e7490;
+  /* cyan-700 */
+
+  --color-secondary: #f97316;
+  /* orange-500 */
+  --color-secondary-dark: #c2410c;
+  /* orange-700 */
+
+  --font-sans: var(--font-inter);
+}
+
+:root {
+  /* No light mode for this cyber-corporate theme, force dark defaults */
+  color-scheme: dark;
+}
+
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.4);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  position: relative;
+}
+
+/* Remove iOS tap flash on interactive elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Utilities */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+}
+
+/* Hide default cursor on desktop — custom cursor replaces it */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Infinite Marquee Animations */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

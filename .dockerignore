@@ -1,0 +1,14 @@
+.git
+.github
+.next
+out
+node_modules
+api/node_modules
+api/hackathon.db
+api/hackathon.db-shm
+api/hackathon.db-wal
+api/.env
+*.md
+.claude
+.gemini
+k8s

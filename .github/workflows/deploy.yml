@@ -1,0 +1,12 @@
+name: App Deploy
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      # Deployment is handled by ArgoCD via GitOps.
+      # docker-publish.yml updates k8s/deployment.yaml with the new image SHA,
+      # ArgoCD detects the manifest change and syncs automatically.

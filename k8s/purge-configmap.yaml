@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-purge-script
+  namespace: default
+data:
+  purge-cache.sh: |
+    #!/bin/sh
+    set -e
+
+    if [ -z "$CLOUDFLARE_ZONE_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+      echo "[ERROR] Missing CLOUDFLARE_ZONE_ID or CLOUDFLARE_API_TOKEN"
+      exit 1
+    fi
+
+    purge_zone() {
+      ZONE_ID="$1"
+      echo "[INFO] Purging cache for zone: $ZONE_ID"
+
+      # Cloudflare bazen JSON içinde boşluk bırakabilir ("success": true)
+      # RESPONSE değişkenine hem body'yi hem de en son satıra HTTP kodunu alıyoruz
+      RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+        "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+        -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+        -H "Content-Type: application/json" \
+        --data '{"purge_everything":true}')
+
+      HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+      BODY=$(echo "$RESPONSE" | head -n-1)
+
+      # Boşluklara duyarlı grep kontrolü ("success": *true)
+      if echo "$BODY" | grep -q '"success": *true'; then
+        echo "[INFO] Cache purged successfully for zone: $ZONE_ID"
+      else
+        echo "[ERROR] Purge failed for zone: $ZONE_ID (HTTP $HTTP_CODE)"
+        echo "[ERROR] Response: $BODY"
+        exit 1
+      fi
+    }
+
+    # Ana bölgeyi temizle
+    purge_zone "$CLOUDFLARE_ZONE_ID"
+
+    # Eğer ikinci bölge tanımlıysa onu da temizle
+    if [ -n "$CLOUDFLARE_ZONE_ID_2" ]; then
+      purge_zone "$CLOUDFLARE_ZONE_ID_2"
+    else
+      echo "[INFO] CLOUDFLARE_ZONE_ID_2 not set, skipping second zone."
+    fi

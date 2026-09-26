@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cloudflare-purge-cache
+  namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: purge-cache
+        image: curlimages/curl:latest
+        command: ["/bin/sh", "/script/purge-cache.sh"]
+        env:
+        - name: CLOUDFLARE_ZONE_ID
+          valueFrom:
+            secretKeyRef:
+              name: hackathon-web-secrets
+              key: CLOUDFLARE_ZONE_ID
+        - name: CLOUDFLARE_ZONE_ID_2
+          valueFrom:
+            secretKeyRef:
+              name: hackathon-web-secrets
+              key: CLOUDFLARE_ZONE_ID_2
+              optional: true
+        - name: CLOUDFLARE_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hackathon-web-secrets
+              key: CLOUDFLARE_API_TOKEN
+        volumeMounts:
+        - name: script-volume
+          mountPath: /script
+      volumes:
+      - name: script-volume
+        configMap:
+          name: cloudflare-purge-script
+      restartPolicy: OnFailure
+  backoffLimit: 2

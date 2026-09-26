@@ -1,0 +1,152 @@
+Hackathon – Bilgi Paketi
+Konu: 
+•	Hackathon’un bildirilmesinde verilecek başlık: BM hedef 11: Sürdürülebilir Şehirler
+•	Yarışma başlangıcı - daraltılan konu kapsamı: 
+ 
+Bu başlıklardan eleme yapılabilir.
+Lokasyon: Muğla Sıtkı Koçman Üniversitesi Atatürk Kültür Merkezi (AKM) fuaye alanı
+ 
+Kapasite: Min 28 masa – max 32 masa: Belirlenen: 30 masa (3-4 kişillik gruplar) 
+Zaman: Ulusal Yazılım Mühendisliği Sempozyumu(UYMS) başlama tarihinden bir gün önce hackathon startı verilecek. (12.00)
+Ulusal Yazılım Mühendisliği Sempozyumu(UYMS) nedir? Neden birlikte yürütmeli?
+Türkiye’nin yazılım mühendisliği alanındaki en köklü ve prestijli akademik buluşması olan Ulusal Yazılım Mühendisliği Sempozyumu (UYMS); araştırmacıları, akademisyenleri ve sektör liderlerini her yıl bir araya getirerek alandaki en güncel gelişmelerin paylaşıldığı saygın bir platformdur. Bu yıl bu etkinlik bitirme projeleri sergileri ile beraber okulumuzda düzenlenecektir. 
+Bu dev organizasyona bir Hackathon entegre etmek, sempozyumun akademik teorisini ve bitirme projeleri sergisinin somut çıktılarını, canlı bir "üretim süreciyle" tamamlayarak etkinliği tam kapsamlı bir teknoloji festivaline dönüştürecektir.
+AKM çatısı altında oluşturulan mekansal bütünlük sayesinde sempozyum aralarında oluşacak doğal ziyaretçi trafiği, akademi-sektör-öğrenci etkileşimini maksimum seviyeye çıkaracaktır.
+Güncel Topluluk İş Birlikleri: 
+•	Muğla Sıtkı Koçman Üniversitesi – Veri Bilimi Topluluğu
+•	Pamukkale Üniversitesi – Pausiber Topluluğu
+•	Adnan Menderes Üniversitesi - ... Topluluğu (görüşmeler sürüyor.)
+Başvuru Süreci:  
+•	Başvuru formunda adaylardan yetkinlikleri ile beraber Github hesapları alınacak.
+•	Yüksek katılım talebi gelmesi durumunda daha yetkin insanlar ile rekabetin sağlamlaştırılması hususunda ön elemenin olduğu senaryo gerçekleştirilecek.
+•	Hackathona katılmaya hak kazanan katılımcılardan formda belirttikleri github hesapları ile hackathon organizasyon hesabından private repolar program öncesinde oluşturulacak.
+•	Her grup için grup numaraları atanacak.
+Program Akışı
+Bölüm 1: Karşılama ve Açılış
+Kayıt Masası ve Check-in (10.00): 
+•	Katılımcıların girişi, yaka kartlarının ve "Swag Pack"(Tişört, rozet, sticker, defter, kalem, çanta) dağıtılması
+•	Takımlara kendi grup numaralarının verilmesi ve eşleşen masaya oturmalarının sağlanması 
+•	Katılımcıların kayıt işlemleri sürerken ikram servisi yapılması (çay, kahve, kurabiye) + müzik
+
+Program Açılış Etkinliği (11.00-12.00):
+Herkesin AKM salonunda toplanması sonrası;
+Açılış Konuşmaları: 
+•	Ev sahibi üniversite(MSKÜ) rektörü/dekanı konuşması
+•	Yürütücü topluluk başkanının “Hoş Geldiniz” konuşması (Sponsorlara teşekkür)
+•	Ana Sponsorların kısa vizyon konuşması (Belediye, GEKA vb.)
+     Tema Lansmanı (BM Madde 11):
+•	“Sürdürülebilir şehirler ne demek? Hangi problemler çözülmeli?” Sorularının cevaplanması
+•	MUPA sağladığı güncel verilerden oluşturulan infografiklerle örnek problemlere değinilmesi
+Yarışma kuralları ve ödül:	
+•	Hackathonu bitirme kriterlerinin açıklanması (Herkesten ürün, afiş, sunum, son commit zorunlu)
+•	Jüri kriterlerinin ve değerlendirme metriklerinin açıklanması
+•	Ödüllerin açıklanması
+
+Bölüm 2: 24 Saatlik Kodlama Maratonu
+Hackathon Başlangıcı(12.00):
+•	Başlama Düdüğü: Herkesin AKM fuaye alanındaki yerlerine yerleşmesi ve geri sayıma başlanması
+•	Geri sayım bitimi, kodlamanın resmen başlaması
+Fikir Doğrulama(13.00):
+•	1 saatin sonunda mentörler masaları gezmesi
+•	 Ekiplerin “ne yapacaklarını” anlatması ve mentörlerin fikir vermesi, uyarılarda bulunması
+      Yemek Dağıtımı-1 (14.00):
+•	Masalara pizza + içecek dağıtılması
+(Aralarda atıştırmalıklar kahve dağıtım aralıksız devam edecek.)
+Süreç Doğrulama(18.00):
+•	Mentörlerin süreci takip etmek ve fikir vermek için masaları ikinci kez dolaşması.
+      (Aralarda teknik ekibimizde yardımca ihtiyaç duyanlara destek sağlayacak.)
+Yemek Dağıtımı-2 (20.00):
+•	Tantuni/SKV/belediye/üniversite ( bu asamadaki yemek opsiyonları devam etmekte)
+Yarı Yol Kontrolü (23.00):
+•	Organizasyon ekibinin masaları gezmesi: “Her şey yolunda mı? Takılan var mı?” kontrolünün yapılması
+Gece Yarısı Aktivitesi (00.00)
+•	30 dakikalik enerji toplamalı şarkı, ikram, kahoot yarışması, kağıt uçak yarışmasının düzenlenmesi
+      Gece Çorbası İkramı (03.00):
+•	Belediyenin çorba arabasının gelişi ile çorba ikramının yapılması
+      Kahvaltı Dağıtım (08.00):
+•	Simit/poğaça/sandviç dağıtılması
+      Sunum Eğitimi (09.00): (opsiyonel)
+•	Her gruptan bir kişinin katıldığı 20 dakikalık “5 dakikada projenizi nasıl satarsınız?” eğitiminin yapılması
+      Son 2 Saat Duyurusu (10.00):
+•	Katılımcılardan beklenen minimum gerekliliklerin hatırlatılması ile beraber son 2 saat duyurusunun yapılması
+      Teslim Portalının Açılması - Son 1 Saat Duyurusu (11.00):
+•	Katılımcılara teslim portalının açıldığı bilgisinin verilmesi ve portal linkinin paylaşılması
+•	Katılımcılardan son 1 saat içerisinde hazırladıkları posteri ve sunumu portala yüklemeleri gerektiği bilgilendirilmesinin yapılması
+•	Son commit olarak “proje bitimi” commiti atma koşulunun hatırlatılması
+•	Son 1 saat hatırlatmasının yapılması
+      Eller yukarı! (12.00):
+•	Kodlama sürecinin sonlanması
+•	Organizasyon ekibinin github ve portal üzerinden belirlenen kurallar karşılandı mı kontrolünün yapması.
+(Ürün, afiş, sunum, son commit gerekliliklerini karşılamayan gruplar değerlendirmeye çıkamaz.)
+•	Müzik ile beraber nefes alınması
+•	Katılımcılara dinlenme + network(UYMS katılımcıları ve mentörler ile) 1 saat süre verilmesi
+•	Son yemek Dağıtımı:
+o	Verilebilecek yemek opsiyonları değerlendirilmekte.
+Bölüm 3: Değerlendirme Süreci
+      Değerlendirme Sürecine Hazırlık (12.00-13.30):
+•	Posterlerin daha öncesinden anlaşması yapılmış fotokopicide çıkartılması
+•	Ortam düzeninin ayarlanması
+•	Jüri timlerinin belirlenmesi (6 tim (3 kişi))
+•	Jüri timlerine değerlendirme yapacakları takımların numaralının verilmesi
+•	Jüri Kalibrasyon Toplantısı: 
+o	Değerlendirme kısmı için geliştirilen uygulamanın kullanımının anlatılması
+o	Uygulamadaki formun değerlendirme metriklerinin(fikir ve etki, teknik uygulama, tasarım ve sunum) anlatılması
+     Değerlendirme Aşama 1: FUAR (13.30-15.30)
+•	Her jüri timi yaklaşık 11 proje değerlendirecek. (11x 10 = 110 -> yaklaşık 2 saat sürecek)
+•	Her takımı 2 jüri timi değerlendirecek.
+•	Her projenin sunumu için takımlara 5 dakika sunum + 3 dakika soru/cevap süresi verilecek.
+•	Süre takibi ve puanlandırma uygulama üzerinden yürütülecek. Takımın süresi dolduğunda timler sıradaki takıma geçecek.
+•	Her takımın 2 timden aldığı notların ortalaması takımın puanı olacak.
+•	Son puan listesinden ilk 10 takım ikinci aşamaya geçme hakkına sahip olacak.
+    Ara(15.30-16.00):
+•	İkramların verilmesi
+•	Son sunumlar için salona geçiş
+•	Son aşamaya geçmeye hak kazanmış katılımcılara hazırlanmaları için süre tanınması
+    Değerlendirme Aşama 2: SALON (16.00 – 18.00)
+•	Takımların 10 dakikalık sürede fikirlerini sunması, ürünlerini pazarlaması
+•	Her Jürinin 10luk puan sisteminde projeyi tekrar puanlaması
+•	Takım sunumları bitiminde total puanlardan ilk 3 takımın belirlenmesi
+•	Mansiyon ödülü belirlenmesi (kriter/değerlendirme?)
+     Final(18.00-18.30):
+•	Katılımcılara, organizasyon ekibine ve sponsorlara teşekkür etmek üzere topluluk başkanının konuşması
+•	1.ye ödülünü vermek üzere …. konuşması
+•	2.ye ödülünü vermek üzere …. konuşması
+•	3.ye ödülünü vermek üzere …. konuşması
+•	Mansiyon ödül?
+
+
+Güncel Sponsorluk Görüşmeleri 
+•	Muğla Sıtkı Koçman Üniversitesi 
+- Rektör onayı, AKM salonunun ayarlanması
+•	MSKÜ Yazılım Mühendisliği Bölümü 
+- Süreç desteği, organizasyon süreci, UYMS bağlantısı
+•	Güney Ege Kalkınma Ajansı (GEKA) 
+- Aydın, Denizli’den ulaşım sağlanması
+- Diğer paydaşların sağlanması desteği
+•	Muğla Büyükşehir Belediyesi - Akıllı Şehir ve Kent Bilgi Sistemleri Daire Başkanlığı 
+-yemek, ödül/para havuzu 
+•	Muğla Teknopark
+-mentör/jüri desteği
+•	Muğla Planlama Ajansı (MUPA)
+
+Yapılan ek görüşmeler
+•	Arabica (kahve) – anlaşıldı.
+•	Hellowork (kahve) – görüşmeler sürüyor.
+•	Coffeemin (kahve) – görüşmeler sürüyor.
+•	Migros (atıştırmalık/ para havuzu) – görüşmeler sürüyor.
+•	Setur (ödül) – görüşmeler sürüyor.
+•	English Time (ödül/para havuzu) – görüşmeler sürüyor.
+•	Dominos (yemek) – görüşmeler sürüyor.
+•	Little Ceaser (yemek) – görüşmeler sürüyor.
+•	Sıtkı Koçman Vakfi(SKV) (yemek) – görüşmeler sürüyor.
+•	Limon Tantuni (yemek) – görüşmeler sürüyor.
+
+Yapılacak Görüşmeler (Sponsorluk/ jüri/ mentör
+•	Uğur Şirketler Grubu (ödül/para havuzu)
+•	Türk Telekom (ödül/para havuzu)
+•	Türkiye Sigorta – Gürkan Türkarslan(Java team lead)
+•	UYMS katılımcıları (jüri/ mentör)
+•	Armco (ödül/para havuzu)
+
+
+
